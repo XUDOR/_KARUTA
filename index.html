@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_KARUTA Card Game Template</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="titleTag">_KARUTA </h1>
+    </header>
+    <div id="main-container" class="side-by-side">
+        <div id="deck-container" class="container" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2 class="DeckTag">Deck</h2>
+            <!-- Cards will be dynamically added here -->
+        </div>
+        <div id="working-area" class="container" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <h2 class="WorkingTag">Working Area</h2>
+            <!-- Drop area for cards -->
+        </div>
+    </div>
+    <footer class="sticky-footer">
+        <p class="footertag">RDXENV 2024</p>
+    </footer>
+</body>
+</html>
