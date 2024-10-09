@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Create 54 cards and add to the deck
-  const cardNames = Array.from({ length: 54 }, (_, i) => `Card ${i + 1}`);
+  const cardNames = Array.from({ length: 54 }, (_, i) => ` ${i + 1}`);
   const cardData = cardNames.map((name, index) => new Card(index + 1, name));
 
   cardData.forEach(card => {
