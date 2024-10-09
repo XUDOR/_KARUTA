@@ -11,14 +11,12 @@ header {
   background-color: #333;
   color: #fff;
   padding: .3rem;
-  
 }
 
 .titleTag {
   font-size: 1.3em;
   font-weight: lighter;
   text-align: left;
-
 }
 
 .side-by-side {
@@ -42,13 +40,11 @@ header {
 }
 
 .DeckTag, .WorkingTag {
-
   font-size: 1em;
   font-weight: lighter;
   text-align: left;
   border-bottom: 1px solid gray;
 }
-
 
 .card {
   width: calc(100% / 7);
@@ -59,6 +55,13 @@ header {
   text-align: center;
   vertical-align: top;
   cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+/* Card hover effect */
+.card:hover {
+  background-color: #d0e8b8; /* Olive color */
+  transform: scale(1.05);
 }
 
 /* Modal styles */
@@ -77,6 +80,32 @@ header {
 
 .modal-content {
   position: relative;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  text-align: center;
+}
+
+/* Add styles for card content inside modal */
+#modal-card-content {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+}
+
+/* Style the flip button inside modal */
+#flip-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#flip-button:hover {
+  background-color: #0056b3;
 }
 
 .close-button {
@@ -91,10 +120,6 @@ body.modal-open {
   overflow: hidden; /* Prevent background scrolling when modal is open */
 }
 
-
-
-
-
 .sticky-footer {
   background-color: #333;
   color: #fff;
@@ -104,9 +129,7 @@ body.modal-open {
   bottom: 0;
 }
 
-
 .footertag {
-
   font-size: .6em;
   text-align: right;
 }
