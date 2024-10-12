@@ -1,3 +1,4 @@
+/* General Styles */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -10,7 +11,7 @@ body {
 header {
   background-color: #333;
   color: #fff;
-  padding: .3rem;
+  padding: 0.3rem;
 }
 
 .titleTag {
@@ -33,10 +34,14 @@ header {
 
 #deck-container {
   background-color: #f9f9f9;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); /* Responsive grid */
+  grid-gap: 10px;
 }
 
 #working-area {
   background-color: #e1e2de;
+  position: relative; /* Allows absolute positioning of cards */
 }
 
 .DeckTag, .WorkingTag {
@@ -46,16 +51,29 @@ header {
   border-bottom: 1px solid gray;
 }
 
+/* Card Styles */
 .card {
-  width: calc(100% / 7);
-  height: 100px;
+  width: 100%; /* Fill grid cell */
+  padding-top: 66.66%; /* Maintain a 3:2 aspect ratio */
+  position: relative; /* Required for inner content positioning */
+  background-color: white;
   border: 1px solid #333;
-  display: inline-block;
-  margin: 5px;
-  text-align: center;
-  vertical-align: top;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease;
+}
+
+.card-content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  color: #333;
 }
 
 /* Card hover effect */
@@ -63,7 +81,19 @@ header {
   background-color: #c5d8d6;
 }
 
-/* Modal styles */
+/* Free positioning for the working area */
+#working-area .card {
+  position: absolute;
+  width: 150px;
+  height: calc(150px * 2 / 3); /* Maintain 3:2 ratio */
+}
+
+/* Ensure deck container cards are positioned relatively */
+#deck-container .card {
+  position: relative;
+}
+
+/* Modal Styles */
 .modal {
   display: none; /* Initially hidden */
   position: fixed; /* Fixed to the viewport */
@@ -119,16 +149,18 @@ body.modal-open {
   overflow: hidden; /* Prevent background scrolling when modal is open */
 }
 
+/* Sticky Footer */
 .sticky-footer {
   background-color: #333;
   color: #fff;
   text-align: center;
   padding: 0.5rem;
-  position: sticky;
+  position: fixed;
   bottom: 0;
+  width: 100%;
 }
 
 .footertag {
-  font-size: .6em;
+  font-size: 0.6em;
   text-align: right;
 }
