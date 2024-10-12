@@ -14,11 +14,23 @@
     <div id="main-container" class="side-by-side">
         <div id="deck-container" class="container">
             <h2 class="DeckTag">Deck</h2>
-            <!-- Cards will be dynamically added here -->
+            <button id="shuffle-button">Shuffle</button>
+            <!-- Cards will be displayed as a single stack -->
         </div>
         <div id="working-area" class="container">
             <h2 class="WorkingTag">Working Area</h2>
-            <!-- Drop area for cards -->
+            <details open>
+                <summary>Essential</summary>
+                <div id="essential-pile" class="pile"></div>
+            </details>
+            <details>
+                <summary>Significant</summary>
+                <div id="significant-pile" class="pile"></div>
+            </details>
+            <details>
+                <summary>Relevant</summary>
+                <div id="relevant-pile" class="pile"></div>
+            </details>
         </div>
     </div>
     <footer class="sticky-footer">

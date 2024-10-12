@@ -163,9 +163,26 @@ body.modal-open {
 .footertag {
   font-size: 0.6em;
   text-align: right;
+  margin-right: 10px;
 }
 
 /* Highlight drop areas when card is being dragged over */
 .drop-highlight {
   border-color: #007bff;
+}
+
+
+
+#essential-pile,
+#significant-pile,
+#relevant-pile {
+border: 2px gray solid;
+height: 200px;
+width: 100%;
+
+
+
+
+
+
 }
