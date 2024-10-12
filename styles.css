@@ -62,7 +62,7 @@ header {
   position: relative; /* Required for inner content positioning */
   background-color: white;
   border: 1px solid #333;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
@@ -83,7 +83,7 @@ header {
 /* Card hover effect */
 .card:hover {
   background-color: #c5d8d6;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+ 
 }
 
 /* Free positioning for the working area */
@@ -103,8 +103,7 @@ header {
   z-index: 1000; /* Ensures the modal appears above everything else */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  border-radius: 8px;
+  border-radius: 2px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 0;
 }
@@ -177,9 +176,9 @@ body.modal-open {
 #essential-pile,
 #significant-pile,
 #relevant-pile {
-  border: 2px solid gray;
+  border: 1px solid #a1ad39;
   height: 200px;
-  width: 100%;
+  width: 97%;
   margin-bottom: 10px;
   padding: 10px;
   background-color: #f0f0f0;
@@ -187,8 +186,8 @@ body.modal-open {
 
 /* Shuffle button styling */
 #shuffle-button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #e2e0d7;
+  color: #a1ad39;
   border: none;
   padding: 10px 20px;
   border-radius: 5px;
