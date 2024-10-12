@@ -68,8 +68,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const cardNames = Array.from({ length: 52 }, (_, i) => `Card ${i + 1}`);
   const cardData = cardNames.map((name, index) => new Card(index + 1, name));
 
-  cardData.forEach(card => {
-      deckContainer.appendChild(card.createCardElement());
+  let currentCardIndex = 0;
+
+  function renderDeck() {
+      deckContainer.innerHTML = '<h2 class="DeckTag">Deck</h2><button id="shuffle-button">Shuffle</button>';
+      if (cardData.length > 0) {
+          const currentCard = cardData[currentCardIndex];
+          deckContainer.appendChild(currentCard.createCardElement());
+      }
+  }
+
+  renderDeck();
+
+  // Shuffle button functionality
+  const shuffleButton = document.getElementById('shuffle-button');
+  shuffleButton.addEventListener('click', () => {
+      shuffleArray(cardData);
+      currentCardIndex = 0;
+      console.log('Deck shuffled:', cardData.map(card => card.name));
+      renderDeck();
   });
 
   // Shuffle function
@@ -80,36 +97,28 @@ document.addEventListener('DOMContentLoaded', () => {
       }
   }
 
-  // Shuffle button functionality
-  const shuffleButton = document.getElementById('shuffle-button');
-  shuffleButton.addEventListener('click', () => {
-      shuffleArray(cardData);
-      deckContainer.innerHTML = '<h2 class="DeckTag">Deck</h2><button id="shuffle-button">Shuffle</button>';
-      cardData.forEach(card => {
-          deckContainer.appendChild(card.createCardElement());
-      });
-  });
-
   // Drag and Drop functionality for working area and deck
-  [deckContainer, essentialPile, significantPile, relevantPile, workingArea].forEach(container => {
-      container.addEventListener('dragover', (e) => {
+  [essentialPile, significantPile, relevantPile].forEach(pile => {
+      pile.addEventListener('dragover', (e) => {
           e.preventDefault();
       });
 
-      container.addEventListener('drop', (e) => {
+      pile.addEventListener('drop', (e) => {
           e.preventDefault();
           const cardId = e.dataTransfer.getData('text/plain');
           const cardElement = document.querySelector(`.card[data-id='${cardId}']`);
           if (cardElement) {
-              container.appendChild(cardElement);
-              cardElement.style.position = container.id === 'working-area' ? 'absolute' : 'relative';
+              pile.appendChild(cardElement);
+              cardElement.style.position = 'relative';
+              currentCardIndex = Math.min(currentCardIndex + 1, cardData.length - 1);
+              renderDeck();
           }
       });
   });
 
   // Highlight drop areas when dragging cards
   function highlightDropAreas(highlight) {
-      [deckContainer, essentialPile, significantPile, relevantPile, workingArea].forEach(container => {
+      [essentialPile, significantPile, relevantPile].forEach(container => {
           if (highlight) {
               container.classList.add('drop-highlight');
           } else {
