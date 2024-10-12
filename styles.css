@@ -60,8 +60,7 @@ header {
 
 /* Card hover effect */
 .card:hover {
-  background-color: #d0e8b8; /* Olive color */
-  transform: scale(1.05);
+  background-color: #c5d8d6;
 }
 
 /* Modal styles */
