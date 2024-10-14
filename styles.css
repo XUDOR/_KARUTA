@@ -9,12 +9,13 @@ body {
 }
 
 header {
-  background-color: #333;
-  color: #fff;
+  background-color: #AEB524;
+  color: #332007;
   padding: 0.3rem;
 }
 
 .titleTag {
+  font-family: 'Times New Roman', Times, serif;
   font-size: 1.3em;
   font-weight: lighter;
   text-align: left;
@@ -29,7 +30,7 @@ header {
   flex: 1;
   padding: 1rem;
   overflow-y: auto;
-  border: 1px solid #ccc;
+  border: 3px solid #185451;
 }
 
 #deck-container {
@@ -37,7 +38,8 @@ header {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid #ccc;
+  border: 3px solid #2B7F8C;
+  color: #185451;
   padding: 10px;
   width: 150px;
 }
@@ -49,6 +51,7 @@ header {
 }
 
 .DeckTag, .WorkingTag {
+  color: #185451;
   font-size: 1em;
   font-weight: lighter;
   text-align: left;
@@ -62,17 +65,22 @@ header {
   width: 100%;
   padding-top: 66.66%;
   background-color: #c5d8d6;
-  border: 1px solid #333;
+  color: #185451;
+  border: 1px solid #2B7F8C;
+  border-radius: 4px;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 /* Styles for cards in the working area */
 .working-area-card {
+  font-size: .8em;
+  color: #332007;
   width: 150px;
   height: calc(150px * 2 / 3);
   position: absolute;
-  border: 1px solid #666;
+  border: 1px solid #2B7F8C;
+  border-radius: 4px;
   background-color: #c5d8d6;
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -87,6 +95,7 @@ header {
 }
 
 /* Modal Styles */
+/* Updated Modal Styles for Portrait Orientation */
 .modal {
   display: none; /* Initially hidden */
   position: fixed; /* Fixed to the viewport */
@@ -108,25 +117,29 @@ header {
   margin: 5px;
   padding: 15px;
   border-radius: 8px;
-  min-height: 400px;
-  min-width: 200px;
+  min-height: 400px;  /* More height for portrait */
+  min-width: 250px;   /* Reduced width for portrait */
+  max-width: 300px;   /* Maintain a max width */
   text-align: center;
+  transition: transform 0.6s ease-in-out;  /* Smooth flipping animation */
 }
 
-/* Add styles for card content inside modal */
 #modal-card-content {
   font-size: 1.5rem;
   margin-bottom: 10px;
+  transform-style: preserve-3d; /* Needed for 3D transformations */
 }
 
 /* Style the flip button inside modal */
+/* Style the flip button inside modal */
 #flip-button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: #e2e0d7;
+  color: #a1ad39;
   border: none;
   padding: 10px;
   border-radius: 4px;
   cursor: pointer;
+  margin-top: 15px;
 }
 
 #flip-button:hover {
@@ -139,6 +152,7 @@ header {
   right: 10px;
   cursor: pointer;
   font-size: 1.5rem;
+  color:#a1ad39;
 }
 
 body.modal-open {
@@ -147,8 +161,8 @@ body.modal-open {
 
 /* Sticky Footer */
 .sticky-footer {
-  background-color: #333;
-  color: #fff;
+  background-color: #332007;
+  color: #e1e2de;
   text-align: center;
   padding: 0.5rem;
   position: fixed;
