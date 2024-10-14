@@ -60,10 +60,12 @@ header {
 
 
 
-/* Styles for cards in the deck */
+/* Adjust the deck card style to be vertical */
 .deck-card {
-  width: 100%;
-  padding-top: 66.66%;
+  width: 300px;                /* Full width of the deck container */
+  height: 420px;              /* Adjust height to fit a vertical layout */
+  padding: 0;                 /* Remove padding used for horizontal ratio */
+  margin-bottom: 10px;         /* Space between vertical cards */
   background-color: #c5d8d6;
   color: #185451;
   border: 1px solid #2B7F8C;
@@ -72,12 +74,13 @@ header {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
+
 /* Styles for cards in the working area */
 .working-area-card {
-  font-size: .8em;
+  font-size: 0.8em;
   color: #332007;
-  width: 150px;
-  height: calc(150px * 2 / 3);
+  width: 105px;
+  height: 147px; /* Correct ratio of 2.5:3.5 */
   position: absolute;
   border: 1px solid #2B7F8C;
   border-radius: 4px;
@@ -87,21 +90,15 @@ header {
 }
 
 
-/* Free positioning for the working area */
-#working-area .card {
-  position: absolute;
-  width: 150px;
-  height: calc(150px * 2 / 3); /* Maintain 3:2 ratio */
-}
 
 /* Modal Styles */
 /* Updated Modal Styles for Portrait Orientation */
 .modal {
   display: none; /* Initially hidden */
   position: fixed; /* Fixed to the viewport */
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  top: 25%;
+  left: 37%;
+  transform: translate(-25%, -25%);
   z-index: 1000; /* Ensures the modal appears above everything else */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
@@ -192,7 +189,7 @@ margin: 5px;
 #significant-pile,
 #relevant-pile {
   border: 2px solid #a1ad39;
-  height: 300px;
+  height: 500px;
   width: 97%;
   margin-bottom: 10px;
   padding: 10px;
