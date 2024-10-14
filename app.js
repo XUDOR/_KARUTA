@@ -109,15 +109,22 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const cardId = e.dataTransfer.getData('text/plain');
         const cardElement = document.querySelector(`.card[data-id='${cardId}']`);
+        
         if (cardElement) {
           pile.appendChild(cardElement);
           cardElement.classList.remove('deck-card');
           cardElement.classList.add('working-area-card');
-          cardElement.style.position = 'relative';
+          cardElement.style.setProperty('--x', `${e.offsetX}px`);
+          cardElement.style.setProperty('--y', `${e.offsetY}px`);
+          cardElement.style.position = 'absolute';
+          cardElement.style.left = `${e.offsetX}px`;
+          cardElement.style.top = `${e.offsetY}px`;
+      
           currentCardIndex = Math.min(currentCardIndex + 1, cardData.length - 1);
           renderDeck();
         }
       });
+      
     });
 
     // Highlight drop areas when dragging cards
