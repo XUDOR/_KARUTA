@@ -103,6 +103,7 @@ header {
   z-index: 1000; /* Ensures the modal appears above everything else */
   background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
+  border: 1px solid #a1ad39;
   border-radius: 2px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 0;
@@ -110,11 +111,12 @@ header {
 
 .modal-content {
   position: relative;
-  background-color: #fff;
-  padding: 20px;
+  background-color: #c5d8d6;
+  margin: 5px;
+  padding: 15px;
   border-radius: 8px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-  max-width: 400px;
+  min-height: 400px;
+  min-width: 200px;
   text-align: center;
 }
 
@@ -172,12 +174,18 @@ body.modal-open {
   border-color: #007bff;
 }
 
+.summaryTitle {
+color:#0056b3;
+margin: 5px;
+
+}
+
 /* Piles Styling */
 #essential-pile,
 #significant-pile,
 #relevant-pile {
-  border: 1px solid #a1ad39;
-  height: 200px;
+  border: 2px solid #a1ad39;
+  height: 300px;
   width: 97%;
   margin-bottom: 10px;
   padding: 10px;
