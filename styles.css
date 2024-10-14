@@ -55,36 +55,29 @@ header {
   border-bottom: 1px solid gray;
 }
 
-/* Card Styles */
-.card {
-  width: 100%; /* Fill grid cell */
-  padding-top: 66.66%; /* Maintain a 3:2 aspect ratio */
-  position: relative; /* Required for inner content positioning */
-  background-color: white;
+
+
+/* Styles for cards in the deck */
+.deck-card {
+  width: 100%;
+  padding-top: 66.66%;
+  background-color: #c5d8d6;
   border: 1px solid #333;
-  
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.card-content {
+/* Styles for cards in the working area */
+.working-area-card {
+  width: 150px;
+  height: calc(150px * 2 / 3);
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2rem;
-  color: #333;
+  border: 1px solid #666;
+  background-color: #c5d8d6;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* Card hover effect */
-.card:hover {
-  background-color: #c5d8d6;
- 
-}
 
 /* Free positioning for the working area */
 #working-area .card {
