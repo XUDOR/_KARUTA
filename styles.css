@@ -166,7 +166,7 @@ body.modal-open {
 .footertag {
   font-size: 0.6em;
   text-align: right;
-  margin-right: 10px;
+  margin-right: 20px;
 }
 
 /* Highlight drop areas when card is being dragged over */
