@@ -9,13 +9,12 @@
 </head>
 <body>
     <header>
-        <h1 class="titleTag">_KARUTA </h1>
+        <h1 class="titleTag">_KARUTA</h1>
     </header>
     <div id="main-container" class="side-by-side">
         <div id="deck-container" class="container">
             <h2 class="DeckTag">Deck</h2>
             <button id="shuffle-button">Shuffle</button>
-            <!-- Cards will be displayed as a single stack -->
         </div>
         <div id="working-area" class="container">
             <h2 class="WorkingTag">Working Area</h2>
@@ -32,6 +31,12 @@
                 <div id="relevant-pile" class="pile"></div>
             </details>
         </div>
+    </div>
+    <div id="move-menu" class="menu">
+        <button data-pile="essential-pile">Move to Essential</button>
+        <button data-pile="significant-pile">Move to Significant</button>
+        <button data-pile="relevant-pile">Move to Relevant</button>
+        <button data-pile="deck-container">Return to Deck</button>
     </div>
     <footer class="sticky-footer">
         <p class="footertag">RDXENV 2024</p>
