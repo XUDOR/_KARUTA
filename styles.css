@@ -219,3 +219,26 @@ margin: 5px;
   text-align: center;
   margin-top: 10px;
 }
+
+
+/*================ ++ MOBILE ++ =============== */
+
+@media (max-width: 768px) {
+  .side-by-side {
+    flex-direction: column;
+  }
+
+  #deck-container {
+    width: 100%; /* Stretch the deck container to fit */
+    margin-bottom: 20px;
+  }
+
+  #working-area {
+    width: 100%; /* Make sure the working area also stretches */
+  }
+
+  .working-area-card {
+    width: 120px;
+    height: 80px;
+  }
+}
