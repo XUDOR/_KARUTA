@@ -22,6 +22,12 @@ header {
   z-index: 1000;
 }
 
+.HeaderCont {
+  display: flex;
+  flex-direction: row;
+  
+}
+
 .titleTag {
   font-family: 'Times New Roman', Times, serif;
   font-size: 1.3em;
@@ -31,6 +37,8 @@ header {
   width: 100%;
   box-sizing: border-box;
 }
+
+
 
 .container {
   flex: 1;
@@ -237,7 +245,10 @@ body.modal-open {
   margin-bottom: 10px;
 }
 
-
+#reset-button:hover {
+  background-color: #0056b3;
+  color: #c5d8d6;
+}
 
 
 
