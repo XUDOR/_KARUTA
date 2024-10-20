@@ -82,7 +82,7 @@ class UI {
     modal.classList.add('modal');
     modal.innerHTML = `
       <div class="modal-content">
-        <span class="close-button">&times;</span>
+        <button class="close-button">&times;</button>
         <div id="modal-card-content"></div>
         <button id="flip-button">Flip</button>
       </div>`;
