@@ -82,7 +82,9 @@ class UI {
     modal.classList.add('modal');
     modal.innerHTML = `
       <div class="modal-content">
-        <button class="close-button">&times;</button>
+        <button class="close-button">
+          <img src="assets/close-icon.svg" alt="Close">
+        </button>
         <div id="modal-card-content"></div>
         <button id="flip-button">Flip</button>
       </div>`;
@@ -91,7 +93,7 @@ class UI {
     Elements.modal = modal;
     Elements.modalContent = modal.querySelector('.modal-content');
     Elements.closeButton = modal.querySelector('.close-button');
-    Elements.flipButton = modal.querySelector('#flip-button');
+    Elements.flipButton = modal.querySelector('#flip-button'); // Added assignment for flipButton
     console.log('Modal created.');
   }
 
