@@ -308,4 +308,32 @@ body.modal-open {
     margin: 0;
     padding: 0.3rem;
   }
+
+  .close-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    background-color: #a1ad39;
+    border: none;
+    border-radius: 4px;
+    padding: 3px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .close-button svg {
+    height: 100%;
+  }
+  
+  .close-button path {
+    stroke: #e2e0d7;
+    stroke-width: 2;
+  }
+
+
+
 }
