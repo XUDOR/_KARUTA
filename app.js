@@ -36,17 +36,30 @@ class Deck {
       console.log('No cards left in the deck.');
       return null;
     }
+    if (this.currentIndex >= this.cards.length) {
+      this.currentIndex = this.cards.length - 1;
+    }
+    if (this.currentIndex < 0) {
+      this.currentIndex = 0;
+    }
     console.log('Current card:', this.cards[this.currentIndex].name);
     return this.cards[this.currentIndex];
   }
 
   moveToNextCard() {
-    if (this.cards.length === 0) {
-      this.currentIndex = 0;
-    } else {
-      this.currentIndex %= this.cards.length;
+    this.currentIndex++;
+    if (this.currentIndex >= this.cards.length) {
+      this.currentIndex = this.cards.length - 1;
     }
     console.log('Moved to next card. Current index:', this.currentIndex);
+  }
+
+  moveToPreviousCard() {
+    this.currentIndex--;
+    if (this.currentIndex < 0) {
+      this.currentIndex = 0;
+    }
+    console.log('Moved to previous card. Current index:', this.currentIndex);
   }
 
   removeCardById(cardId) {
@@ -74,7 +87,9 @@ const Elements = {
   closeButton: null,
   flipButton: null,
   shuffleButton: null,
-  resetButton: null
+  resetButton: null,
+  nextButton: null,
+  backButton: null
 };
 
 // UI/UX
@@ -244,9 +259,13 @@ class Renderer {
     Elements.deckContainer.innerHTML = `
       <h2 class="DeckTag">Deck</h2>
       <button id="shuffle-button">Shuffle</button>
-      <button id="reset-button">Reset</button>`;
+      <button id="reset-button">Reset</button>
+      <button id="back-button">Back</button>
+      <button id="next-button">Next</button>`;
     Elements.shuffleButton = document.getElementById('shuffle-button');
     Elements.resetButton = document.getElementById('reset-button');
+    Elements.nextButton = document.getElementById('next-button');
+    Elements.backButton = document.getElementById('back-button');
 
     const currentCard = this.deck.getCurrentCard();
     if (currentCard) {
@@ -286,7 +305,7 @@ class EventHandlers {
             // Remove the card from the deck's cards array
             App.deck.removeCardById(parseInt(cardId));
 
-            App.deck.moveToNextCard();
+            // Do not automatically move to next card when dragged
             App.renderer.renderDeck();
             console.log(`Card with ID ${cardId} dropped into pile.`);
           }
@@ -323,7 +342,7 @@ class EventHandlers {
         const cardId = parseInt(UI.currentCardElement.dataset.id);
         App.deck.removeCardById(cardId);
 
-        App.deck.moveToNextCard();
+        // Do not automatically move to next card when moved via menu
         App.renderer.renderDeck();
 
         moveMenu.style.display = 'none';
@@ -345,10 +364,14 @@ class EventHandlers {
     // Remove existing event listeners to prevent multiple bindings
     Elements.shuffleButton.replaceWith(Elements.shuffleButton.cloneNode(true));
     Elements.resetButton.replaceWith(Elements.resetButton.cloneNode(true));
+    Elements.nextButton.replaceWith(Elements.nextButton.cloneNode(true));
+    Elements.backButton.replaceWith(Elements.backButton.cloneNode(true));
 
     // Reassign the buttons after cloning
     Elements.shuffleButton = document.getElementById('shuffle-button');
     Elements.resetButton = document.getElementById('reset-button');
+    Elements.nextButton = document.getElementById('next-button');
+    Elements.backButton = document.getElementById('back-button');
 
     Elements.shuffleButton.addEventListener('click', () => {
       console.log('Shuffle button clicked.');
@@ -360,6 +383,19 @@ class EventHandlers {
       console.log('Reset button clicked.');
       App.reset();
     });
+
+    Elements.nextButton.addEventListener('click', () => {
+      console.log('Next button clicked.');
+      App.deck.moveToNextCard();
+      App.renderer.renderDeck();
+    });
+
+    Elements.backButton.addEventListener('click', () => {
+      console.log('Back button clicked.');
+      App.deck.moveToPreviousCard();
+      App.renderer.renderDeck();
+    });
+
     console.log('Button event handlers set up.');
   }
 }

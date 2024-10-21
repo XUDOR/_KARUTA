@@ -22,7 +22,6 @@ body {
     width: 90px; /* Adjust the width as needed */
     height: auto;
     margin-right: 10px; /* Space between the logo and title */
-    
     padding: 5px;
 }
 
@@ -31,13 +30,10 @@ body {
     font-size: 1.3em;
     font-weight: lighter;
     text-align: left;
-    /* Removed padding-left to align with flexbox */
     margin: 0;
     width: auto; /* Adjusted width */
     box-sizing: border-box;
 }
-
-
 
 .container {
   flex: 1;
@@ -58,7 +54,6 @@ body {
   padding: 1rem;
   overflow: hidden; 
   border: 4px solid #3AA0A0;
-
   color: #185451;
   background-color: #EBEFDF;
   box-sizing: border-box;
@@ -99,10 +94,9 @@ body {
 }
 
 .cardTitle {
-padding: 10px;
+  padding: 10px;
   font-size: 1.3em;
   font-family: 'Times New Roman', Times, serif;
-
 }
 
 .working-area-card {
@@ -172,22 +166,20 @@ padding: 10px;
   right: 10px;
   width: 20px;
   height: 20px;
-  background: none;    /* Remove background color */
+  background: none;
   border: none;
-  padding: 0;          /* Remove padding */
-  margin: 0;           /* Remove margin */
+  padding: 0;
+  margin: 0;
   cursor: pointer;
-  display: block;      /* Ensure the button is a block-level element */
+  display: block;
 }
 
 .close-button img {
-  width: 100%;         /* Image fills the width of the button */
-  height: 100%;        /* Image fills the height of the button */
-  display: block;      /* Remove any extra space below the image */
-  pointer-events: none;/* Ensure the image doesn't block the click event */
+  width: 100%;
+  height: 100%;
+  display: block;
+  pointer-events: none;
 }
-
-
 
 body.modal-open {
   overflow: hidden;
@@ -224,13 +216,10 @@ body.modal-open {
   transition: background-color 0.1s ease;
 }
 
-
 .summaryTitle:hover {
   background-color: #0056b3;
   color: #c5d8d6;
-
 }
-
 
 #essential-pile,
 #significant-pile,
@@ -244,40 +233,27 @@ body.modal-open {
   background-color: #AEB524;
 }
 
-#shuffle-button {
+#shuffle-button,
+#reset-button,
+#next-button,
+#back-button {
   background-color: #2B7F8C;
   color: #c5d8d6;
   border: none;
-  
-  padding: 10px 20px;
+  padding: 10px 15px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 1rem;
   font-family: 'Times New Roman', Times, serif;
-  margin-bottom: 10px;
+  margin: 5px 5px 10px 0;
   transition: background-color 0.1s ease;
 }
 
-#shuffle-button:hover {
+#shuffle-button:hover,
+#reset-button:hover,
+#next-button:hover,
+#back-button:hover {
   background-color: #0056b3;
-}
-
-#reset-button {
-  background-color: #AEB524;
-  color: #0056b3;
-  border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 1rem;
-  font-family: 'Times New Roman', Times, serif;
-  margin-bottom: 10px;
-  transition: background-color 0.1s ease;
-}
-
-#reset-button:hover {
-  background-color: #0056b3;
-  color: #c5d8d6;
 }
 
 .menu {
@@ -309,6 +285,10 @@ body.modal-open {
     background-color: #0056b3;
 }
 
+.card.active {
+  opacity: 0.7;
+}
+
 @media (max-width: 768px) {
   .side-by-side {
     flex-direction: column;
@@ -332,5 +312,4 @@ body.modal-open {
     margin: 0;
     padding: 0.3rem;
   }
-  
 }
