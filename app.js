@@ -101,7 +101,6 @@ class UI {
     console.log('Modal created.');
   }
 
-
   static showModal(content) {
     document.getElementById('modal-card-content').textContent = content;
     Elements.modal.style.display = 'block';
@@ -137,8 +136,20 @@ class UI {
 
   static showMoveMenu(cardElement, x, y) {
     const moveMenu = document.getElementById('move-menu');
+    const menuWidth = moveMenu.offsetWidth;
+    const menuHeight = moveMenu.offsetHeight;
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    // Adjust x and y if the menu would go off-screen
+    if (x + menuWidth > screenWidth) {
+      x = screenWidth - menuWidth - 10; // 10px padding
+    }
+    if (y + menuHeight > screenHeight) {
+      y = screenHeight - menuHeight - 10;
+    }
+
     moveMenu.style.display = 'block';
-    moveMenu.style.position = 'absolute';
     moveMenu.style.left = `${x}px`;
     moveMenu.style.top = `${y}px`;
     UI.currentCardElement = cardElement;
@@ -156,32 +167,48 @@ class UI {
     cardElement.appendChild(nameElement);
 
     if (isTouchDevice) {
+      const LONG_PRESS_DURATION = 800; // Duration for long press
+      const DOUBLE_TAP_DELAY = 300; // Maximum delay between taps for double tap
       let touchStartTime = 0;
+      let lastTapTime = 0;
       let touchTimeout;
 
       cardElement.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        cardElement.classList.add('active');
         touchStartTime = Date.now();
         touchTimeout = setTimeout(() => {
           // Long press detected
-          e.preventDefault();
           UI.showMoveMenu(cardElement, e.touches[0].clientX, e.touches[0].clientY);
-        }, 600);
+          cardElement.classList.remove('active');
+        }, LONG_PRESS_DURATION);
       });
 
       cardElement.addEventListener('touchend', (e) => {
         clearTimeout(touchTimeout);
+        cardElement.classList.remove('active');
         const touchDuration = Date.now() - touchStartTime;
-        if (touchDuration < 600) {
-          // Consider it a tap
-          UI.showModal(`${card.name}\n\n${card.question}`);
+        const currentTime = Date.now();
+
+        if (touchDuration < LONG_PRESS_DURATION) {
+          if (currentTime - lastTapTime < DOUBLE_TAP_DELAY) {
+            // Double tap detected
+            UI.showModal(`${card.name}\n\n${card.question}`);
+            lastTapTime = 0; // Reset last tap time
+          } else {
+            // First tap
+            lastTapTime = currentTime;
+          }
         }
         e.preventDefault();
       });
 
       cardElement.addEventListener('touchmove', (e) => {
         clearTimeout(touchTimeout);
+        cardElement.classList.remove('active');
       });
     } else {
+      // Non-touch devices (e.g., desktop)
       cardElement.draggable = true;
 
       cardElement.addEventListener('dragstart', (e) => {
@@ -197,7 +224,8 @@ class UI {
         console.log(`Finished dragging card: ${card.name}`);
       });
 
-      cardElement.addEventListener('click', () => {
+      cardElement.addEventListener('dblclick', () => {
+        // Double-click on desktop to open modal
         UI.showModal(`${card.name}\n\n${card.question}`);
       });
     }
@@ -393,7 +421,7 @@ class App {
       { cardNumber: 46, name: "Resilience", question: "How do you know when you are feeling resilient?" },
       { cardNumber: 47, name: "Balance", question: "Where are you out of balance?" },
       { cardNumber: 48, name: "Uniqueness", question: "How does your uniqueness show up?" },
-      { cardNumber: 49, name: "Service", question: "How do you receive when you  are being of service?" },
+      { cardNumber: 49, name: "Service", question: "How do you receive when you are being of service?" },
       { cardNumber: 50, name: "Love", question: "How does love exist?" }
     ];
 
