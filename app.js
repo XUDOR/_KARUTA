@@ -4,6 +4,8 @@ const CARD_TYPES = {
   WORKING: 'working-area-card'
 };
 
+const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0 || navigator.msMaxTouchPoints > 0;
+
 // Data
 class Card {
   constructor(id, name, question) {
@@ -77,6 +79,8 @@ const Elements = {
 
 // UI/UX
 class UI {
+  static currentCardElement = null;
+
   static createModal() {
     const modal = document.createElement('div');
     modal.classList.add('modal');
@@ -89,14 +93,14 @@ class UI {
         <button id="flip-button">Flip</button>
       </div>`;
     document.body.appendChild(modal);
-  
+
     Elements.modal = modal;
     Elements.modalContent = modal.querySelector('.modal-content');
     Elements.closeButton = modal.querySelector('.close-button');
     Elements.flipButton = modal.querySelector('#flip-button');
     console.log('Modal created.');
   }
-  
+
 
   static showModal(content) {
     document.getElementById('modal-card-content').textContent = content;
@@ -131,10 +135,18 @@ class UI {
     console.log('Drop areas', highlight ? 'highlighted' : 'unhighlighted');
   }
 
+  static showMoveMenu(cardElement, x, y) {
+    const moveMenu = document.getElementById('move-menu');
+    moveMenu.style.display = 'block';
+    moveMenu.style.position = 'absolute';
+    moveMenu.style.left = `${x}px`;
+    moveMenu.style.top = `${y}px`;
+    UI.currentCardElement = cardElement;
+  }
+
   static createCardElement(card, type = CARD_TYPES.DECK) {
     const cardElement = document.createElement('div');
     cardElement.classList.add('card', type);
-    cardElement.draggable = true;
     cardElement.dataset.id = card.id;
 
     const nameElement = document.createElement('div');
@@ -143,22 +155,52 @@ class UI {
 
     cardElement.appendChild(nameElement);
 
-    cardElement.addEventListener('dragstart', (e) => {
-      e.dataTransfer.setData('text/plain', card.id);
-      cardElement.classList.add('dragging');
-      UI.highlightDropAreas(true);
-      console.log(`Started dragging card: ${card.name}`);
-    });
+    if (isTouchDevice) {
+      let touchStartTime = 0;
+      let touchTimeout;
 
-    cardElement.addEventListener('dragend', () => {
-      cardElement.classList.remove('dragging');
-      UI.highlightDropAreas(false);
-      console.log(`Finished dragging card: ${card.name}`);
-    });
+      cardElement.addEventListener('touchstart', (e) => {
+        touchStartTime = Date.now();
+        touchTimeout = setTimeout(() => {
+          // Long press detected
+          e.preventDefault();
+          UI.showMoveMenu(cardElement, e.touches[0].clientX, e.touches[0].clientY);
+        }, 600);
+      });
 
-    cardElement.addEventListener('click', () => {
-      UI.showModal(`${card.name}\n\n${card.question}`);
-    });
+      cardElement.addEventListener('touchend', (e) => {
+        clearTimeout(touchTimeout);
+        const touchDuration = Date.now() - touchStartTime;
+        if (touchDuration < 600) {
+          // Consider it a tap
+          UI.showModal(`${card.name}\n\n${card.question}`);
+        }
+        e.preventDefault();
+      });
+
+      cardElement.addEventListener('touchmove', (e) => {
+        clearTimeout(touchTimeout);
+      });
+    } else {
+      cardElement.draggable = true;
+
+      cardElement.addEventListener('dragstart', (e) => {
+        e.dataTransfer.setData('text/plain', card.id);
+        cardElement.classList.add('dragging');
+        UI.highlightDropAreas(true);
+        console.log(`Started dragging card: ${card.name}`);
+      });
+
+      cardElement.addEventListener('dragend', () => {
+        cardElement.classList.remove('dragging');
+        UI.highlightDropAreas(false);
+        console.log(`Finished dragging card: ${card.name}`);
+      });
+
+      cardElement.addEventListener('click', () => {
+        UI.showModal(`${card.name}\n\n${card.question}`);
+      });
+    }
 
     return cardElement;
   }
@@ -197,31 +239,33 @@ class Renderer {
 // Event Handlers
 class EventHandlers {
   static setupDragAndDrop() {
-    [Elements.essentialPile, Elements.significantPile, Elements.relevantPile].forEach(pile => {
-      pile.addEventListener('dragover', (e) => e.preventDefault());
-      pile.addEventListener('drop', (e) => {
-        e.preventDefault();
-        const cardId = e.dataTransfer.getData('text/plain');
-        const cardElement = document.querySelector(`.card[data-id='${cardId}']`);
+    if (!isTouchDevice) {
+      [Elements.essentialPile, Elements.significantPile, Elements.relevantPile].forEach(pile => {
+        pile.addEventListener('dragover', (e) => e.preventDefault());
+        pile.addEventListener('drop', (e) => {
+          e.preventDefault();
+          const cardId = e.dataTransfer.getData('text/plain');
+          const cardElement = document.querySelector(`.card[data-id='${cardId}']`);
 
-        if (cardElement) {
-          pile.appendChild(cardElement);
-          cardElement.classList.remove(CARD_TYPES.DECK);
-          cardElement.classList.add(CARD_TYPES.WORKING);
-          cardElement.style.position = 'absolute';
-          cardElement.style.left = `${e.offsetX}px`;
-          cardElement.style.top = `${e.offsetY}px`;
+          if (cardElement) {
+            pile.appendChild(cardElement);
+            cardElement.classList.remove(CARD_TYPES.DECK);
+            cardElement.classList.add(CARD_TYPES.WORKING);
+            cardElement.style.position = 'absolute';
+            cardElement.style.left = `${e.offsetX}px`;
+            cardElement.style.top = `${e.offsetY}px`;
 
-          // Remove the card from the deck's cards array
-          App.deck.removeCardById(parseInt(cardId));
+            // Remove the card from the deck's cards array
+            App.deck.removeCardById(parseInt(cardId));
 
-          App.deck.moveToNextCard();
-          App.renderer.renderDeck();
-          console.log(`Card with ID ${cardId} dropped into pile.`);
-        }
+            App.deck.moveToNextCard();
+            App.renderer.renderDeck();
+            console.log(`Card with ID ${cardId} dropped into pile.`);
+          }
+        });
       });
-    });
-    console.log('Drag and drop event handlers set up.');
+      console.log('Drag and drop event handlers set up.');
+    }
   }
 
   static setupModalEvents() {
@@ -233,6 +277,40 @@ class EventHandlers {
     });
     Elements.flipButton.addEventListener('click', UI.flipCard);
     console.log('Modal event handlers set up.');
+  }
+
+  static setupMoveMenuEvents() {
+    const moveMenu = document.getElementById('move-menu');
+    moveMenu.addEventListener('click', (e) => {
+      const pileId = e.target.dataset.pile;
+      if (pileId && UI.currentCardElement) {
+        const targetPile = document.getElementById(pileId);
+        targetPile.appendChild(UI.currentCardElement);
+
+        // Update card classes
+        UI.currentCardElement.classList.remove(CARD_TYPES.DECK);
+        UI.currentCardElement.classList.add(CARD_TYPES.WORKING);
+
+        // Remove the card from the deck
+        const cardId = parseInt(UI.currentCardElement.dataset.id);
+        App.deck.removeCardById(cardId);
+
+        App.deck.moveToNextCard();
+        App.renderer.renderDeck();
+
+        moveMenu.style.display = 'none';
+        UI.currentCardElement = null;
+      }
+    });
+
+    document.addEventListener('click', (e) => {
+      const moveMenu = document.getElementById('move-menu');
+      if (moveMenu.style.display === 'block' && !moveMenu.contains(e.target)) {
+        moveMenu.style.display = 'none';
+        UI.currentCardElement = null;
+      }
+    });
+    console.log('Move menu event handlers set up.');
   }
 
   static setupButtons() {
@@ -315,7 +393,7 @@ class App {
       { cardNumber: 46, name: "Resilience", question: "How do you know when you are feeling resilient?" },
       { cardNumber: 47, name: "Balance", question: "Where are you out of balance?" },
       { cardNumber: 48, name: "Uniqueness", question: "How does your uniqueness show up?" },
-      { cardNumber: 49, name: "Service", question: "How do you receive when you are being of service?" },
+      { cardNumber: 49, name: "Service", question: "How do you receive when you  are being of service?" },
       { cardNumber: 50, name: "Love", question: "How does love exist?" }
     ];
 
@@ -332,6 +410,7 @@ class App {
     // Setup event handlers
     EventHandlers.setupDragAndDrop();
     EventHandlers.setupModalEvents();
+    EventHandlers.setupMoveMenuEvents();
 
     console.log('App initialized.');
   }
