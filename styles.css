@@ -125,10 +125,10 @@ padding: 10px;
   left: 37%;
   transform: translate(-25%, -25%);
   z-index: 1000;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: #332007;
   padding: 20px;
-  border: 1px solid #a1ad39;
-  border-radius: 2px;
+  border: 3px solid #a1ad39;
+  border-radius: 10px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
   opacity: 0;
 }
@@ -172,24 +172,21 @@ padding: 10px;
   right: 10px;
   width: 20px;
   height: 20px;
-  background-color: #a1ad39;
+  background: none;    /* Remove background color */
   border: none;
-  border-radius: 4px;
-  padding: 3px;
+  padding: 0;          /* Remove padding */
+  margin: 0;           /* Remove margin */
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: block;      /* Ensure the button is a block-level element */
 }
 
-.close-button svg {
-  height: 100%;
+.close-button img {
+  width: 100%;         /* Image fills the width of the button */
+  height: 100%;        /* Image fills the height of the button */
+  display: block;      /* Remove any extra space below the image */
+  pointer-events: none;/* Ensure the image doesn't block the click event */
 }
 
-.close-button path {
-  stroke: #e2e0d7;
-  stroke-width: 2;
-}
 
 
 body.modal-open {
@@ -308,32 +305,5 @@ body.modal-open {
     margin: 0;
     padding: 0.3rem;
   }
-
-  .close-button {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    width: 20px;
-    height: 20px;
-    background-color: #a1ad39;
-    border: none;
-    border-radius: 4px;
-    padding: 3px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
   
-  .close-button svg {
-    height: 100%;
-  }
-  
-  .close-button path {
-    stroke: #e2e0d7;
-    stroke-width: 2;
-  }
-
-
-
 }

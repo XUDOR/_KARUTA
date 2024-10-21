@@ -89,13 +89,14 @@ class UI {
         <button id="flip-button">Flip</button>
       </div>`;
     document.body.appendChild(modal);
-
+  
     Elements.modal = modal;
     Elements.modalContent = modal.querySelector('.modal-content');
     Elements.closeButton = modal.querySelector('.close-button');
-    Elements.flipButton = modal.querySelector('#flip-button'); // Added assignment for flipButton
+    Elements.flipButton = modal.querySelector('#flip-button');
     console.log('Modal created.');
   }
+  
 
   static showModal(content) {
     document.getElementById('modal-card-content').textContent = content;
