@@ -85,7 +85,6 @@ const Elements = {
   modal: null,
   modalContent: null,
   closeButton: null,
-  flipButton: null,
   shuffleButton: null,
   resetButton: null,
   nextButton: null,
@@ -99,30 +98,38 @@ class UI {
   static createModal() {
     const modal = document.createElement('div');
     modal.classList.add('modal');
+    modal.setAttribute('id', 'modal');
     modal.innerHTML = `
       <div class="modal-content">
         <button class="close-button">
           <img src="assets/close-icon.svg" alt="Close">
         </button>
-        <div id="modal-card-content"></div>
-        <button id="flip-button">Flip</button>
-      </div>`;
+        <div class="modal-body">
+          <div class="modal-title" id="modal-card-title">Title here</div>
+          <div class="modal-question" id="modal-card-question">Question here</div>
+        </div>
+      </div>
+    `;
+
+    // Ensure modal is hidden by default
+    modal.style.display = 'none';
+
     document.body.appendChild(modal);
 
     Elements.modal = modal;
     Elements.modalContent = modal.querySelector('.modal-content');
     Elements.closeButton = modal.querySelector('.close-button');
-    Elements.flipButton = modal.querySelector('#flip-button');
     console.log('Modal created.');
   }
 
-  static showModal(content) {
-    document.getElementById('modal-card-content').textContent = content;
-    Elements.modal.style.display = 'block';
+  static showModal(card) {
+    console.log('showModal called with card:', card.name);
+    document.getElementById('modal-card-title').textContent = card.name;
+    document.getElementById('modal-card-question').textContent = card.question;
+    Elements.modal.style.display = 'flex';
     Elements.modal.style.opacity = '1';
-    Elements.modal.style.transform = 'scale(1.1)';
     document.body.classList.add('modal-open');
-    console.log('Modal shown with content:', content);
+    console.log('Modal shown with card:', card.name);
   }
 
   static closeModal() {
@@ -130,16 +137,6 @@ class UI {
     document.body.classList.remove('modal-open');
     Elements.modal.style.opacity = '0';
     console.log('Modal closed.');
-  }
-
-  static flipCard() {
-    if (Elements.modalContent.style.transform === 'rotateY(180deg)') {
-      Elements.modalContent.style.transform = 'rotateY(0deg)';
-      console.log('Card flipped to front.');
-    } else {
-      Elements.modalContent.style.transform = 'rotateY(180deg)';
-      console.log('Card flipped to back.');
-    }
   }
 
   static highlightDropAreas(highlight) {
@@ -150,6 +147,7 @@ class UI {
   }
 
   static showMoveMenu(cardElement, x, y) {
+    console.log('showMoveMenu called');
     const moveMenu = document.getElementById('move-menu');
     const menuWidth = moveMenu.offsetWidth;
     const menuHeight = moveMenu.offsetHeight;
@@ -182,6 +180,7 @@ class UI {
     cardElement.appendChild(nameElement);
 
     if (isTouchDevice) {
+      console.log('Touch device detected.');
       const LONG_PRESS_DURATION = 800; // Duration for long press
       const DOUBLE_TAP_DELAY = 300; // Maximum delay between taps for double tap
       let touchStartTime = 0;
@@ -189,6 +188,7 @@ class UI {
       let touchTimeout;
 
       cardElement.addEventListener('touchstart', (e) => {
+        console.log('touchstart event');
         e.preventDefault();
         cardElement.classList.add('active');
         touchStartTime = Date.now();
@@ -200,6 +200,7 @@ class UI {
       });
 
       cardElement.addEventListener('touchend', (e) => {
+        console.log('touchend event');
         clearTimeout(touchTimeout);
         cardElement.classList.remove('active');
         const touchDuration = Date.now() - touchStartTime;
@@ -208,17 +209,20 @@ class UI {
         if (touchDuration < LONG_PRESS_DURATION) {
           if (currentTime - lastTapTime < DOUBLE_TAP_DELAY) {
             // Double tap detected
-            UI.showModal(`${card.name}\n\n${card.question}`);
+            console.log('Double tap detected.');
+            UI.showModal(card);
             lastTapTime = 0; // Reset last tap time
           } else {
             // First tap
             lastTapTime = currentTime;
+            console.log('First tap detected.');
           }
         }
         e.preventDefault();
       });
 
       cardElement.addEventListener('touchmove', (e) => {
+        console.log('touchmove event');
         clearTimeout(touchTimeout);
         cardElement.classList.remove('active');
       });
@@ -240,8 +244,9 @@ class UI {
       });
 
       cardElement.addEventListener('dblclick', () => {
+        console.log('Double-click detected.');
         // Double-click on desktop to open modal
-        UI.showModal(`${card.name}\n\n${card.question}`);
+        UI.showModal(card);
       });
     }
 
@@ -256,6 +261,7 @@ class Renderer {
   }
 
   renderDeck() {
+    console.log('Rendering deck...');
     Elements.deckContainer.innerHTML = `
       <h2 class="DeckTag">Deck</h2>
       <button id="shuffle-button">Shuffle</button>
@@ -322,7 +328,6 @@ class EventHandlers {
         UI.closeModal();
       }
     });
-    Elements.flipButton.addEventListener('click', UI.flipCard);
     console.log('Modal event handlers set up.');
   }
 
@@ -407,6 +412,7 @@ class App {
   static originalDeckData;
 
   static init() {
+    console.log('Initializing app...');
     // Initialize data
     const valueDeckData = [
       { cardNumber: 1, name: "Creativity", question: "What is it about creativity that makes you feel vulnerable?" },
@@ -497,4 +503,7 @@ class App {
 }
 
 // Initialize the app when the DOM is fully loaded
-document.addEventListener('DOMContentLoaded', App.init.bind(App));
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('DOM fully loaded and parsed.');
+  App.init();
+});
